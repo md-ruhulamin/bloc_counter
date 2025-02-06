@@ -1,10 +1,12 @@
 
 
+import 'package:bloc_counter/module_count/dhashBoard.dart';
 import 'package:flutter/material.dart';
 
-class DashBoardPage extends StatelessWidget {
+// ignore: must_be_immutable
+class ProfilePage extends StatelessWidget {
   String data;
-   DashBoardPage({required this.data});
+   ProfilePage({required this.data});
 
   @override
   Widget build(BuildContext context) {
@@ -13,8 +15,16 @@ class DashBoardPage extends StatelessWidget {
       body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.all(28.0),
-          child: Center(
-            child: Text(data),
+          child: Column(
+            children: [
+              Center(
+                child: Text(data),
+              ),
+              ElevatedButton(onPressed:(){
+
+                Navigator.push(context,MaterialPageRoute(builder: (context)=> DashBoardPage()));
+              }, child: Text("GO to DashBoard"))
+            ],
           ),
         ),
       ),

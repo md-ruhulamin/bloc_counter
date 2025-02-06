@@ -1,9 +1,15 @@
+import 'package:bloc_counter/authentication/auth_bloc.dart';
+import 'package:bloc_counter/authentication/auth_event.dart';
 import 'package:bloc_counter/login/login_bloc/login_state.dart';
+import 'package:bloc_counter/main.dart';
+import 'package:bloc_counter/utils/navigation_bloc.dart';
+import 'package:bloc_counter/utils/routes/routes.dart';
+import 'package:bloc_counter/utils/routes/routes_name.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../counter/counter_homepage.dart';
-import 'dash_board_page.dart';
+import 'profile_page.dart';
 import 'login_bloc/login_bloc.dart';
 import 'login_bloc/login_event.dart';
 
@@ -43,6 +49,7 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+     
         title: const Text('Login'),
       ),
       body: BlocProvider(
@@ -54,7 +61,12 @@ class _LoginScreenState extends State<LoginScreen> {
             child: BlocListener<LoginBloc, LoginState>(
               listenWhen: (previous, current) => current.loginStatus != previous.loginStatus,
               listener: (context, state) {
-                if (state.loginStatus == LoginStatus.error) {
+
+                if(state.loginStatus==LoginStatus.loading)
+                {
+                   CircularProgressIndicator();
+                }
+              else  if (state.loginStatus == LoginStatus.error) {
                   ScaffoldMessenger.of(context)
                     ..hideCurrentSnackBar()
                     ..showSnackBar(
@@ -69,8 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
                       const SnackBar(content: Text('Login successful')),
                     );
 
-                    Navigator.push(context,MaterialPageRoute(builder: (context)=>DashBoardPage(data: state.message,)));
-
+                   Navigator.pushNamed(context, RoutesName.login);
                 }
               },
               child: Column(
@@ -127,11 +138,18 @@ class _LoginScreenState extends State<LoginScreen> {
                         return ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                context.read<LoginBloc>().add(LoginApi());
+                                  context.read<AuthBloc>().add(SaveTokenEvent('lorumipsumlorumipsum'));
+                          Navigator.pushNamed(context, RoutesName.home);
                               }
                             },
                             child: state.loginStatus == LoginStatus.loading ? CircularProgressIndicator() : const Text('Login'));
-                      })
+                      }),
+
+
+
+                      ElevatedButton(onPressed: (){
+                        Navigator.pushNamed(context, RoutesName.post_home);
+                      }, child: Text("Go to Post Screen"))
                 ],
               ),
             ),

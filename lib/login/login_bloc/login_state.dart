@@ -5,7 +5,6 @@ enum LoginStatus { initial, loading, success, error }
 
 class LoginState extends Equatable {
   const LoginState({this.email = '', this.password = '', this.message = '', this.loginStatus = LoginStatus.initial});
-
   final String email;
   final String password;
   final String message;

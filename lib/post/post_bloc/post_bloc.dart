@@ -7,8 +7,6 @@ import 'package:bloc_counter/utils/status.dart';
 class PostBloc  extends Bloc<PostEvent,PostState>{
  PostRepository postRepository=PostRepository();
    PostBloc():super(PostState()){
-
-
     
      on<FetchPost>(fetchPost);
    }
